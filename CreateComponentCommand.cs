@@ -5,13 +5,13 @@ internal class CreateComponentCommand : Command<CreateComponentSettings>
 {
     public override int Execute(CommandContext context, CreateComponentSettings settings)
     {
-        Console.WriteLine($"nome do component {settings.ComponentName}");
+
+        var directory = new DirectoryInfo(Environment.CurrentDirectory + $@"\{settings.ComponentName}");
+
+        if (!directory.Exists)
+            directory = Directory.CreateDirectory($@"{Environment.CurrentDirectory}\{settings.ComponentName}");
+        File.Create(directory.FullName + @"\index.jsx");
+        File.Create(directory.FullName + @"\styles.css");
         return 0;
     }
-}
-
-internal class CreateComponentSettings : CommandSettings
-{
-    [CommandArgument(0, "<componentName>")]
-    public string ComponentName { get; set; }
-}
+}       
